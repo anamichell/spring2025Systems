@@ -1,48 +1,75 @@
-// Problem 1: String concatenation
-fn concat_strings(s1: &String, s2: &String) -> String {
-    let mut borrow_word = s1.to_string();
-    borrow_word.push_str(&s2);
-    borrow_word
+use std::fs::File;
+use std::io::prelude::*;
+use std::io::{self, Read, Write};
+
+// Reading from console
+struct Person {
+    name: String,
+    sid: u64,
+    port: u16,
+}
+
+fn reading_from_console() {
+    let mut file = File::create("config.txt").unwrap();
+    let mut buffer = String::new();
+
+    print!("What's your name? ");
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut buffer).unwrap();
+    let name = buffer.trim().to_string();
+    buffer.clear();
+
+    print!("What's your SID? ");
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut buffer).unwrap();
+    let sid = buffer.trim().parse().unwrap();
+    buffer.clear();
+
+    print!("What's your port number? ");
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut buffer).unwrap();
+    let port = buffer.trim().parse().unwrap();
+    buffer.clear();
+    
+    let person = Person { name, sid, port };
+    println!("Hi {}, your SID is {}!", person.name, person.sid);
+
+    // write in config.txt file
+    writeln!(file, "{}", person.name).unwrap();
+    writeln!(file, "{}", person.sid).unwrap();
+    writeln!(file, "{}", person.port).unwrap();
+}
+
+// Reading from file
+struct Config {
+    name: String,
+    sid: u64,
+    port: u16,
+}
+
+impl Config {
+    fn from_file(path: &str) -> Config {
+        let mut file = File::open(path).unwrap();
+        let mut contents = String::new();
+        file.read_to_string(&mut contents).unwrap();
+
+        let mut lines = contents.lines();
+        let name = lines.next().unwrap().to_string();
+        let sid = lines.next().unwrap().parse().unwrap();
+        let port = lines.next().unwrap().parse().unwrap();
+
+        Config { name, sid, port }
+    }
+}
+
+fn reading_from_file() {
+    let config = Config::from_file("config.txt");
+    println!("name: {}", config.name);
+    println!("sid: {}", config.sid);
+    println!("port: {}", config.port);
 }
 
 fn main() {
-    let s1 = String::from("Hello, ");
-    let s2 = String::from("World!");
-    let result = concat_strings(&s1, &s2);
-    println!("{}", result); // Should print: "Hello, World!"
+    reading_from_console();
+    reading_from_file();
 }
-
-// // Problem 2: Clone and Modify
-// fn clone_and_modify(s: &String) -> String {
-//     let mut word = s.clone();
-//     word.push_str("World");
-//     word
-// }
-
-// fn main() {
-//     let s = String::from("Hello, ");
-//     let modified = clone_and_modify(&s);
-//     println!("Original: {}", s); // Should print: "Original: Hello, "
-//     println!("Modified: {}", modified); // Should print: "Modified: Hello, World!"
-// }
-
-// // Problem 3: Mutable Reference Sum
-// #[allow(unused_variables, unused_mut)]
-// fn sum(total: &mut i32, low: i32, high: i32) {
-//     for x in low..=high {
-//         *total += x;
-//     }
-    
-// }
-
-// fn main() {
-//     // create necessary variables and test your function for low 0 high 100
-//     // total should be 5050
-//     let low = 0;
-//     let high = 100;
-//     let mut total = 0;
-    
-//     sum(&mut total, low, high);
-
-//     println!("Total: {}", total);
-// }
