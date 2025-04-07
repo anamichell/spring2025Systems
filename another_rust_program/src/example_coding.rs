@@ -1,46 +1,46 @@
 /// Module 2
 // 04 Rust Ownership
 /// Ownership and functions 
-fn main() {
-    let s = String::from("hello");
-    let s = takes_ownership(s);
-    // s is no longer valid here
-    println!("{}", s)
-}
+// fn main() {
+//     let s = String::from("hello");
+//     let s = takes_ownership(s);
+//     // s is no longer valid here
+//     println!("{}", s)
+// }
 
-fn takes_ownership(some_string: String) -> String {
-    println!("{}", some_string);
-    some_string
-} // some_string goes out of scope and is dropped
+// fn takes_ownership(some_string: String) -> String {
+//     println!("{}", some_string);
+//     some_string
+// } // some_string goes out of scope and is dropped
 
-/// 05 Rust Borrowing
-/// Borrowing 
-fn main() {
-    let word = "UTRGV".to_string();
-    let borrow_word = &word;
+// /// 05 Rust Borrowing
+// /// Borrowing 
+// fn main() {
+//     let word = "UTRGV".to_string();
+//     let borrow_word = &word;
 
-    let borrow_word1 = &word;
+//     let borrow_word1 = &word;
 
-    getString(&word);
-}
+//     getString(&word);
+// }
 
-fn getString(some_string: &String) {
-    println!("{}", some_string)
-}
+// fn getString(some_string: &String) {
+//     println!("{}", some_string)
+// }
 
-// Problem 1: String concatenation
-fn concat_strings(s1: &String, s2: &String) -> String {
-    let mut borrow_word = s1.to_string();
-    borrow_word.push_str(&s2);
-    borrow_word
-}
+// // Problem 1: String concatenation
+// fn concat_strings(s1: &String, s2: &String) -> String {
+//     let mut borrow_word = s1.to_string();
+//     borrow_word.push_str(&s2);
+//     borrow_word
+// }
 
-fn main() {
-    let s1 = String::from("Hello, ");
-    let s2 = String::from("World!");
-    let result = concat_strings(&s1, &s2);
-    println!("{}", result); // Should print: "Hello, World!"
-}
+// fn main() {
+//     let s1 = String::from("Hello, ");
+//     let s2 = String::from("World!");
+//     let result = concat_strings(&s1, &s2);
+//     println!("{}", result); // Should print: "Hello, World!"
+// }
 
 // // Problem 2: Clone and Modify
 // fn clone_and_modify(s: &String) -> String {
@@ -76,3 +76,18 @@ fn main() {
 
 //     println!("Total: {}", total);
 // }
+
+// Module 4 - Enum
+#[derive(Debug)]
+enum Insurance {
+    House, 
+    Car, 
+    Life
+}
+
+fn main() {
+    let my_car_insurance = Insurance::Car;
+
+    print("{:?}", my_car_insurance);
+    
+}
