@@ -1,48 +1,48 @@
-// In class Assignment
+// // In class Assignment
 
-// Create a struct Student (major)
-struct Student {
-    major: String,
-}
+// // Create a struct Student (major)
+// struct Student {
+//     major: String,
+// }
 
-// Higher order functions update majors 
-fn update_major(collection: &mut Vec<Student>,behavior:fn(&mut Student,String)) {
-    for student in collection.iter_mut() {
-        behavior(student, "Biology".to_string());
-    }
-}
+// // Higher order functions update majors 
+// fn update_major(collection: &mut Vec<Student>,behavior:fn(&mut Student,String)) {
+//     for student in collection.iter_mut() {
+//         behavior(student, "Biology".to_string());
+//     }
+// }
 
-// First order functions, assign_major(student, major_declared)
-fn assign_major(s:&mut Student, major:String) {
-    s.major = major;
-}
+// // First order functions, assign_major(student, major_declared)
+// fn assign_major(s:&mut Student, major:String) {
+//     s.major = major;
+// }
 
-// Helper function to print values without closures
-fn print_values(items: &[Student]) {
-    print!("Values: ");
-    for (i, item) in items.iter().enumerate() {
-        if i > 0 {
-            print!(", ");
-        }
-        print!("{}", item.major);
-    }
-    println!();
-}
+// // Helper function to print values without closures
+// fn print_values(items: &[Student]) {
+//     print!("Values: ");
+//     for (i, item) in items.iter().enumerate() {
+//         if i > 0 {
+//             print!(", ");
+//         }
+//         print!("{}", item.major);
+//     }
+//     println!();
+// }
 
-// Create a vector of students1,2,3 and update all students major
-fn main() {
-    let mut students = vec![
-        Student { major: "Computer Science".to_string() },
-        Student { major: "English".to_string() },
-        Student { major: "Music".to_string() },
-    ];
-    // Before update
-    print_values(&students);
+// // Create a vector of students1,2,3 and update all students major
+// fn main() {
+//     let mut students = vec![
+//         Student { major: "Computer Science".to_string() },
+//         Student { major: "English".to_string() },
+//         Student { major: "Music".to_string() },
+//     ];
+//     // Before update
+//     print_values(&students);
 
-    // Update the major
-    update_major(&mut students, assign_major);
-    print_values(&students);
-}
+//     // Update the major
+//     update_major(&mut students, assign_major);
+//     print_values(&students);
+// }
 
 // // // // fn motivation_example() {
 // // // //     // Problem: find the largest element
@@ -241,3 +241,23 @@ fn main() {
 //     print!("After squaring: ");
 //     print_values(&items);
 // }
+
+fn using_function_as_parameter() {
+    fn add(x: i32, y: i32) -> i32 {
+        x + y
+    }
+
+    fn calculator(x: i32, y: i32, operation: fn(i32, i32) -> i32) {
+        let result = operation(x, y);
+        println!("Result of operation: {}", result);    
+    }
+
+    calculator(1, 2, add);
+    calculator(1, 2, |x, y| x + y);
+    calculator(1, 2, |x, y| x - y);
+    calculator(1, 2, |x, y| x * y);
+}
+
+fn main() {
+    using_function_as_parameter();
+}
