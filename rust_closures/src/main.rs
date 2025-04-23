@@ -25,97 +25,97 @@
 //     track_changes();
 // }
 
-// Task 3
-// Write a function process_vector that applies a closure to transform each element of a vector. 
-// Implement it in both ways:
-// 1. Using map and collect
-// 2. Using a for loop
-fn process_vector<F>(vec: Vec<i32>, f: F) -> Vec<i32>
-where
-    F: Fn(i32) -> i32,
-{
-    // Option 1
-    // vec.into_iter().map(f).collect();
-
-    // Option 2
-    let mut result = Vec::new();
-    for x in vec {
-        result.push(f(x));
-    }
-    result
-}
-
-fn main() {
-    let numbers = vec![1, 2, 3];
-
-    let doubled = process_vector(numbers.clone(), |x| {
-        // Implement: multiply each number by 2
-        x * 2
-    });
-
-    let replaced = process_vector(numbers, |x| {
-        // Implement: if number > 2, replace with 0, else keep number
-        if x > 2 {
-            0
-        } else {
-            x
-        }
-    });
-
-    println!("Doubled: {:?}", doubled);
-    println!("Replaced: {:?}", replaced);
-}
-
-// // Task 5: Lazy Computation
-// // Write a struct ComputeCache that accepts a closure during initialization. 
-// // Cache the result after the first computation. Use thread::sleep to simulate an expensive computation.
-// use std::{thread, time::Duration};
-
-// struct ComputeCache<T>
+// // Task 3
+// // Write a function process_vector that applies a closure to transform each element of a vector. 
+// // Implement it in both ways:
+// // 1. Using map and collect
+// // 2. Using a for loop
+// fn process_vector<F>(vec: Vec<i32>, f: F) -> Vec<i32>
 // where
-//     T: Fn() -> String,
+//     F: Fn(i32) -> i32,
 // {
-//     computation: T,
-//     value: Option<String>,
-// }
+//     // Option 1
+//     // vec.into_iter().map(f).collect();
 
-// impl<T> ComputeCache<T>
-// where
-//     T: Fn() -> String,
-// {
-//     fn new(computation: T) -> Self {
-//         ComputeCache {
-//             computation,
-//             value: None,
-//         }
+//     // Option 2
+//     let mut result = Vec::new();
+//     for x in vec {
+//         result.push(f(x));
 //     }
-
-//     fn get_result(&mut self) -> String {
-//         match &self.value {
-//             Some(v) => {
-//                 println!("Retrieved from cache instantly!");
-//                 v.to_string()
-//             },
-//             None => {
-//                 let v = (self.computation)();
-//                 self.value = Some(v.clone());
-//                 v.to_string()
-//             }
-//         }
-//     }
+//     result
 // }
 
 // fn main() {
-//     let mut cache = ComputeCache::new(|| {
-//         println!("Computing (this will take 2 seconds)...");
-//         thread::sleep(Duration::from_secs(2));
-//         "Hello, world!".to_string()
+//     let numbers = vec![1, 2, 3];
+
+//     let doubled = process_vector(numbers.clone(), |x| {
+//         // Implement: multiply each number by 2
+//         x * 2
 //     });
 
-//     println!("First call:");
-//     println!("Result: {}", cache.get_result());
-    
-//     println!("\nSecond call:");
-//     println!("Result (cached): {}", cache.get_result());
+//     let replaced = process_vector(numbers, |x| {
+//         // Implement: if number > 2, replace with 0, else keep number
+//         if x > 2 {
+//             0
+//         } else {
+//             x
+//         }
+//     });
+
+//     println!("Doubled: {:?}", doubled);
+//     println!("Replaced: {:?}", replaced);
 // }
+
+// Task 5: Lazy Computation
+// Write a struct ComputeCache that accepts a closure during initialization. 
+// Cache the result after the first computation. Use thread::sleep to simulate an expensive computation.
+use std::{thread, time::Duration};
+
+struct ComputeCache<T>
+where
+    T: Fn() -> String,
+{
+    computation: T,
+    value: Option<String>,
+}
+
+impl<T> ComputeCache<T>
+where
+    T: Fn() -> String,
+{
+    fn new(computation: T) -> Self {
+        ComputeCache {
+            computation,
+            value: None,
+        }
+    }
+
+    fn get_result(&mut self) -> String {
+        match &self.value {
+            Some(v) => {
+                println!("Retrieved from cache instantly!");
+                v.to_string()
+            },
+            None => {
+                let v = (self.computation)();
+                self.value = Some(v.clone());
+                v.to_string()
+            }
+        }
+    }
+}
+
+fn main() {
+    let mut cache = ComputeCache::new(|| {
+        println!("Computing (this will take 2 seconds)...");
+        thread::sleep(Duration::from_secs(2));
+        "Hello, world!".to_string()
+    });
+
+    println!("First call:");
+    println!("Result: {}", cache.get_result());
+    
+    println!("\nSecond call:");
+    println!("Result (cached): {}", cache.get_result());
+}
 
